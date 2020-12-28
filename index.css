@@ -9,6 +9,14 @@
   box-sizing: border-box;
 }
 
+.game-container {
+  display: none;
+}
+
+.start-container {
+  display: block;
+}
+
 .cards {
   border: 1px solid red;
   width: 300px;
@@ -91,4 +99,8 @@
   width: 20px;
   height: 20px;
   border-radius: 100px;
+}
+
+#restart {
+  display: none;
 }

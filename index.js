@@ -324,34 +324,65 @@ let allCard = [
     color: 'yellow'
   }
 ];
-let choosenCards = [];
-let players = [
-  {
-    name: 'Sipi'
-  },
-  {
-    name: 'Niki'
-  },
-  {
-    name: 'Mari'
-  }
-];
+
+let players = [];
 let cards = [];
 let actualPlayer = 0;
 let firstDraw = true;
+let startedGame = false;
+const gameContainer = document.querySelector('.game-container');
+const startContainer = document.querySelector('.start-container');
 const cardsDiv = document.querySelector('.cards');
 const cardsTextDiv = document.querySelector('.cards .text');
 const actualPlayerDiv = document.querySelector('.actual-player');
 const drawTextDiv = document.querySelector('.draw .text');
 const cardsColorDiv = document.querySelector('.cards .color');
+const newPlayer = document.querySelector('#new-player');
+const addNewPlayerButton = document.querySelector('#add-new-player');
+const playerListDiv = document.querySelector('.player-list');
+const startGameButton = document.querySelector('#start-game');
+const restartButton = document.querySelector('#restart');
   
+const addPlayer = () => {
+  if (newPlayer.value !== null && newPlayer.value !== undefined && newPlayer.value !== "") {
+    players.push({ name: newPlayer.value });
+    newPlayer.value = "";
+    console.log(players);
+    writePlayers();
+  }
+}
 
-const chooseCards = (cards) => {
-  cards = cards.sort(() => .5 - Math.random());
+const writePlayers = () => {
+  let string = '';
+  for (player of players) {
+    string += `<div players='player'>${player.name}</div>`;
+  }
+  console.log(string);
+  playerListDiv.innerHTML = string;
+}
+
+const chooseCards = () => {
+  cards = allCard.sort(() => .5 - Math.random());
+  let choosenCards = [];
   for (let i = 0; i < (players.length * 4); i++) {
     choosenCards.push(cards.shift());
   }
   return choosenCards;
+}
+
+const changeScene = () => {
+  if (!startedGame) {
+    gameContainer.style.display = 'block';
+    startContainer.style.display = 'none';
+    restartButton.style.display = 'none';
+    startedGame = true;
+  } else {
+    gameContainer.style.display = 'none';
+    startContainer.style.display = 'block';
+    players = [];
+    writePlayers();
+    startedGame = false;
+  }
 }
 
 const writeActualPlayer = () => {
@@ -363,13 +394,12 @@ const drawCardsNumber = () => {
 }
 
 const init = () => {
-  cards = chooseCards(allCard);
+  cards = chooseCards();
   actualPlayer = 0;
   firstDraw = true;
   writeActualPlayer();
   drawCardsNumber();
-  chooseCards();
-  console.log(cards);
+  changeScene();
 };
 
 const nextPlayer = () => {
@@ -388,12 +418,18 @@ const draw = () => {
   cardsColorDiv.classList.remove('red');
   cardsColorDiv.classList.remove('yellow');
   cardsColorDiv.classList.remove('purple');
-  cardsColorDiv.classList.add(cards[0].color);
+  if (cards.length > 0) {
+    cardsColorDiv.classList.add(cards[0].color);
+  }
   drawTextDiv.innerHTML = card.text;
+  
   if (!firstDraw) {
     nextPlayer();
   } else {
     firstDraw = false;
+  }
+  if (cards.length <= 0) {
+    restartButton.style.display = 'block';
   }
 }
 
@@ -401,4 +437,18 @@ cardsDiv.addEventListener('click', () => {
   draw();
 });
 
-init();
+
+addNewPlayerButton.addEventListener('click', () => {
+  addPlayer();
+});
+
+
+startGameButton.addEventListener('click', () => {
+  if (players.length >= 2) {
+    init();
+  }
+});
+
+restartButton.addEventListener('click', () => {
+  changeScene();
+})

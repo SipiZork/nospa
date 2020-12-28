@@ -8,7 +8,14 @@
   <title>Game</title>
 </head>
 <body>
-  <div class="container">
+  <div class="start-container">
+    <div class="player-list">
+    </div>
+      <input type="text" name="new-player" id="new-player">
+      <button type="button" id="add-new-player">Hozzáadás</button>
+      <button type="button" id="start-game">Indítás</button>
+  </div>
+  <div class="game-container">
     <div class="actual-player"></div>
     <div class="cards">
       <div class="color"></div>
@@ -23,6 +30,7 @@
       <p><span class="pink"></span>Körsorrendben mindenki megpróbálja kitalálni a kérdést húzó játékos válaszát. Ebben az esetben a kérdést húzó játékos hallgassa meg a többieket, majd utolsóként ő válaszoljon.</p>
       <p><span class="yellow"></span>A kérdés felolvasását követően az adott lapot felhúzó játékos dönti el, hogy milyen szabály alapján történjen a válaszadás.</p>
     </div>
+    <button id="restart">Újraindítás</button>
   </div>
 </body>
 </html>
