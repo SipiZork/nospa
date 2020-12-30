@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
   <script src="index.js" defer></script>
   <title>Game</title>
 </head>
@@ -11,9 +12,14 @@
   <div class="start-container">
     <div class="player-list">
     </div>
-      <input type="text" name="new-player" id="new-player">
-      <button type="button" id="add-new-player">Hozzáadás</button>
-      <button type="button" id="start-game">Indítás</button>
+    <div class="new-player-input">
+      <button type="button" id="add-new-player">
+        <li class="fas fa-plus"></li>
+      </button>
+      <input type="text" name="new-player" id="new-player" required>
+      <label for="new-player">Új játékos hozzáadása</label>
+    </div>
+    <button type="button" id="start-game">Indítás</button>
   </div>
   <div class="game-container">
     <div class="actual-player"></div>
@@ -31,6 +37,7 @@
       <p><span class="yellow"></span>A kérdés felolvasását követően az adott lapot felhúzó játékos dönti el, hogy milyen szabály alapján történjen a válaszadás.</p>
     </div>
     <button id="restart">Újraindítás</button>
+    <div class="tooltip"></div>
   </div>
 </body>
 </html>

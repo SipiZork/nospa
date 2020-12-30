@@ -3,29 +3,170 @@
   --purple: rgb(118, 5, 211);
   --pink: rgb(197, 3, 132);
   --red: rgb(185, 4, 4);
+  --bg: rgb(139, 134, 137);
+  --dark-bg: rgb(94, 86, 91);
+  --text: rgb(253, 223, 223);
+  --active: rgb(160, 4, 121);
+  --card-bg : bisque;
 }
 
-*{
+* {
   box-sizing: border-box;
-}
-
-.game-container {
-  display: none;
+  margin: 0;
+  padding: 0;
 }
 
 .start-container {
-  display: block;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: var(--bg);
+  gap: 1rem;
+  gap: 1.5rem;
+}
+
+.player-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: .5rem;
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--text);
+  flex-wrap: wrap;
+}
+
+.player-list div {
+  background-color: var(--dark-bg);
+  padding: .25rem;
+}
+
+.new-player-input {
+  position: relative;
+  width: 15rem;
+  height: 2rem;
+}
+
+.new-player-input input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 90%;
+  height: 100%;
+  border: none;
+  background-color: transparent;
+  outline: none;
+  border-bottom: 2px solid var(--dark-bg);
+  font-size: 1.2rem;
+  transition: color .2s;
+}
+
+.new-player-input label {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  z-index: 10;
+  color: white;
+  width: 100%;
+  line-height: 2rem;
+  pointer-events: none;
+  font-size: 1.2rem;
+  transition: top .2s, left .2s, font-size .2s;
+  color: var(--dark-bg);
+}
+
+.new-player-input input:active + label,
+.new-player-input input:focus + label,
+.new-player-input input:valid + label {
+  padding: 0;
+  top: -20px;
+  left: 0;
+  font-size: 1rem;
+}
+
+.new-player-input button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 10%;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: color .2s;
+}
+
+.new-player-input button:hover,
+.new-player-input button:hover + input {
+  color: white;
+}
+
+#start-game {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  width: 6rem;
+  height: 2rem;
+  border: 1px solid var(--dark-bg);
+  background-color: var(--dark-bg);
+  color: white;
+  cursor: pointer;
+  transition: color .2s, background-color .2s;
+}
+
+#start-game:hover {
+  background-color: white;
+  color: var(--dark-bg);
+}
+
+.game-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+  background: var(--bg);
+  padding-top: 1rem;
+  gap: 1rem;
+}
+
+.actual-player {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: var(--dark-bg);
+  font-size: 1.4rem;
+  font-weight: 900;
+  letter-spacing: .1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.actual-player .active {
+  color: white;
+  animation: pulse 2s infinite;
 }
 
 .cards {
-  border: 1px solid red;
-  width: 300px;
-  height: 150px;
+  width: 12.5rem;
+  height: 15.625rem;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   cursor: pointer;
+  gap: .5rem;
+  background-color: var(--card-bg);
+  font-size: 1.1rem;
+  border-radius: 1.25rem;
 }
 
 .players {
@@ -49,23 +190,22 @@
 }
 
 .draw {
-  border: 1px solid red;
   padding: 20px;
-  margin-top: 10px;
-  width: 400px;
-  height: 250px;
+  width: 25rem;
+  height: 15.625rem;
   display: flex;
   justify-content: center;
-  align-items: center;
-  text-align: justify;
+  text-align: center;
   flex-direction: column;
   font-size: 1.2rem;
+  border-radius: 1.25rem;
+  background-color: var(--card-bg);
 }
 
 .cards .color {
-  width: 40px;
-  height: 40px;
-  border-radius: 100px;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 3rem;
 }
 
 .cards .color.red,
@@ -89,7 +229,8 @@
 }
 
 .colors {
-  margin-top: 10px;
+  display: none;
+  padding: 0 2rem 0 .5rem;
 }
 
 .colors p span {
@@ -103,4 +244,52 @@
 
 #restart {
   display: none;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  width: 6rem;
+  height: 2rem;
+  border: 1px solid var(--dark-bg);
+  background-color: var(--dark-bg);
+  color: white;
+  cursor: pointer;
+  transition: color .2s, background-color .2s;
+}
+
+.tooltip {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  background-color: black;
+  color: white;
+  padding: .25rem;
+  border-radius: .4rem;
+  text-align: center;
+}
+
+@media screen and (max-width: 950px) {
+  .game-container {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .colors {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  } 50% {
+    opacity: .3;
+  } 100% {
+    opacity: 1;
+  }
 }

@@ -325,11 +325,25 @@ let allCard = [
   }
 ];
 
-let players = [];
-let cards = [];
-let actualPlayer = 0;
-let firstDraw = true;
-let startedGame = false;
+const tips = [
+  {
+    color: 'red',
+    text: 'Az válaszol, aki húzta a kérdést',
+  },
+  {
+    color: 'purple',
+    text: 'A kérdést a felolvasóval kezdve körsorrendben mindenki megválaszolhatja'
+  },
+  {
+    color: 'pink',
+    text: 'Körsorrendben mindenki megpróbálja kitalálni a kérdést húzó játékos válaszát. Ebben az esetben a kérdést húzó játékos hallgassa meg a többieket, majd utolsóként ő válaszoljon'
+  },
+  {
+    color: 'yellow',
+    text: 'A kérdés felolvasását követően az adott lapot felhúzó játékos dönti el, hogy milyen szabály alapján történjen a válaszadás'
+  }
+];
+
 const gameContainer = document.querySelector('.game-container');
 const startContainer = document.querySelector('.start-container');
 const cardsDiv = document.querySelector('.cards');
@@ -342,7 +356,15 @@ const addNewPlayerButton = document.querySelector('#add-new-player');
 const playerListDiv = document.querySelector('.player-list');
 const startGameButton = document.querySelector('#start-game');
 const restartButton = document.querySelector('#restart');
-  
+const tooltipDiv = document.querySelector('.tooltip');
+const color = document.querySelector('.color');
+
+let players = [];
+let cards = [];
+let actualPlayer = 0;
+let firstDraw = true;
+let startedGame = false;
+
 const addPlayer = () => {
   if (newPlayer.value !== null && newPlayer.value !== undefined && newPlayer.value !== "") {
     players.push({ name: newPlayer.value });
@@ -372,13 +394,13 @@ const chooseCards = () => {
 
 const changeScene = () => {
   if (!startedGame) {
-    gameContainer.style.display = 'block';
+    gameContainer.style.display = 'flex';
     startContainer.style.display = 'none';
     restartButton.style.display = 'none';
     startedGame = true;
   } else {
     gameContainer.style.display = 'none';
-    startContainer.style.display = 'block';
+    startContainer.style.display = 'flex';
     players = [];
     writePlayers();
     startedGame = false;
@@ -386,7 +408,15 @@ const changeScene = () => {
 }
 
 const writeActualPlayer = () => {
-  actualPlayerDiv.innerHTML = `Soronkövetkező játékos: ${players[actualPlayer].name}`;
+  let string = '';
+  for (player of players) {
+    let classes = '';
+    if (player.name === players[actualPlayer].name) {
+      classes = 'active';
+    }
+    string += `<div class="${classes}">${player.name}</div>`;
+  }
+  actualPlayerDiv.innerHTML = string;
 }
 
 const drawCardsNumber = () => {
@@ -411,6 +441,14 @@ const nextPlayer = () => {
   writeActualPlayer();
 }
 
+const getTooltip = color => {
+  tips.filter(tip => {
+    if (tip.color === color) {
+      tooltipDiv.innerHTML = tip.text;
+    }
+  });
+}
+
 const draw = () => {
   let card = cards.shift();
   drawCardsNumber();
@@ -420,6 +458,7 @@ const draw = () => {
   cardsColorDiv.classList.remove('purple');
   if (cards.length > 0) {
     cardsColorDiv.classList.add(cards[0].color);
+    getTooltip(cards[0].color);
   }
   drawTextDiv.innerHTML = card.text;
   
@@ -442,6 +481,12 @@ addNewPlayerButton.addEventListener('click', () => {
   addPlayer();
 });
 
+newPlayer.addEventListener('keyup', (e) => {
+  if (e.keyCode === 13) {
+    addPlayer();
+  }
+})
+
 
 startGameButton.addEventListener('click', () => {
   if (players.length >= 2) {
@@ -451,4 +496,14 @@ startGameButton.addEventListener('click', () => {
 
 restartButton.addEventListener('click', () => {
   changeScene();
-})
+});
+
+color.addEventListener('mouseenter', (e) => {
+  tooltipDiv.style.display = 'block';
+  tooltipDiv.style.top = `${e.clientY}px`;
+  tooltipDiv.style.left = `${e.clientX}px`;
+  console.log(e);
+});
+color.addEventListener('mouseleave', (e) => {
+  tooltipDiv.style.display = 'none';
+});
