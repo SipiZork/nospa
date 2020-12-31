@@ -369,7 +369,6 @@ const addPlayer = () => {
   if (newPlayer.value !== null && newPlayer.value !== undefined && newPlayer.value !== "") {
     players.push({ name: newPlayer.value });
     newPlayer.value = "";
-    console.log(players);
     writePlayers();
   }
 }
@@ -502,7 +501,6 @@ color.addEventListener('mouseenter', (e) => {
   tooltipDiv.style.display = 'block';
   tooltipDiv.style.top = `${e.clientY}px`;
   tooltipDiv.style.left = `${e.clientX}px`;
-  console.log(e);
 });
 color.addEventListener('mouseleave', (e) => {
   tooltipDiv.style.display = 'none';
